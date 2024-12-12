@@ -92,8 +92,10 @@ format:
 
 - Registrar los modelos ya preparados.
 
-- Desplegar.
-
 . . .
 
 ![](images/mlflow_options.png){width="80%"}
+
+## MLFlow integrado en el flujo de trabajo
+
+![](images/mlops-mlflow.png)
