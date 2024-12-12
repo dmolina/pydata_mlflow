@@ -1,14 +1,14 @@
 ---
 title: |
-  ![](images/logos.png){width="100%"}  
-  Gestionando tu proyecto con MLFlow
+  Gestionando tu proyecto con
+  ![](images/mlflow.png){width="60%"}  
 	
 theme: Montpellier
 author: "Daniel Molina Cabrera"
 date: 19 December 2024 
 date-format: long
 toc: true
-toc-title: Contents
+toc-title: Tabla de Contenidos
 toc-depth: 1
 slide-number: true
 execute:
@@ -23,7 +23,7 @@ format:
     code-summary: "Show Code"
     fig-width: 5
     fig-height: 3
-    fig-align: left
+    fig-align: center
   beamer:
     fig-width: 4
     fig-height: 2
@@ -37,3 +37,63 @@ format:
     slide-number: true
 ---
 
+## Material de las transparencias
+
+![](images/qr-code.png){width="40%""}
+
+## Sobre mí {.smaller}
+
+::: {.columns}
+![](images/logos.png){fig-align="top" width="100%"}
+
+:::: {.column width="40%"}
+![](images/yo_serio.png){width="80%"}
+::::
+
+:::: {.column width="60%"}
+
+- Profesor Titular de la Universidad de Granada.
+- Investigador en Inteligencia Artificial.
+- Enseñando ML varios años usando Python y R.
+- Usando técnicas de ML en proyectos con empresas.
+::::
+
+:::
+
+# ¿Qué hace?
+
+## ¿Cuál es el problema que intenta resolver?
+
+. . .
+
+::: {.columns}
+
+:::: {.column width="60%"}
+
+![](images/coupled_confused.jpg)
+::::
+
+:::: {.column width="40%"}
+
+![](images/preguntas.jpg){width="60%"}
+
+- Múltiples _notebooks_ y modelos.
+- Cuál obtiene cada resultado.
+- Reproducibilidad.
+::::
+
+:::
+
+## ¿Qué se necesitaría? {.bigger}
+
+- Asociar los resultados a cada modelo/parámetros.
+
+- Registrar los datos usados.
+
+- Registrar los modelos ya preparados.
+
+- Desplegar.
+
+. . .
+
+![](images/mlflow_options.png){width="80%"}
