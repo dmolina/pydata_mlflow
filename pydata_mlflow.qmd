@@ -1,0 +1,39 @@
+---
+title: |
+  ![](images/logos.png){width="100%"}  
+  Gestionando tu proyecto con MLFlow
+	
+theme: Montpellier
+author: "Daniel Molina Cabrera"
+date: 19 December 2024 
+date-format: long
+toc: true
+toc-title: Contents
+toc-depth: 1
+slide-number: true
+execute:
+  echo: true
+  cache: true
+output:
+  beamer_presentation:
+    slide_level: 1
+format:
+  html:
+    code-fold: false
+    code-summary: "Show Code"
+    fig-width: 5
+    fig-height: 3
+    fig-align: left
+  beamer:
+    fig-width: 4
+    fig-height: 2
+  revealjs:
+    theme: white
+    fig-align: center
+    fig-height: 5
+    fig-cap-location: margin
+    smaller: true
+    logo: images/license.png
+    slide-number: true
+---
+
