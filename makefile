@@ -3,7 +3,8 @@ OUT:=$(NAME).html $(NAME).ipynb
 IN:=*_files images/*
 DEPS=style.css
 
-all: $(OUT)
+html: $(NAME).html
+all: html
 zip: $(NAME).zip
 
 %.html: %.qmd $(DEPS)

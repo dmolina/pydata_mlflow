@@ -43,7 +43,7 @@ format:
 ::: {.columns}
 
 :::: {.column width="50%"}
-![Github](images/qr-code.png){width="80%" #github}
+![Github](images/qr_github.png){width="100%" #github}
 ::::
 
 :::: {.column width="50%"}
@@ -109,3 +109,301 @@ format:
 ## MLFlow integrado en el flujo de trabajo
 
 ![](images/mlops-mlflow.png)
+
+# Verlo en acción
+
+## Primero hay que instalarlo
+
+Lo podemos instalar directamente con pip.
+
+```{python}
+#| output: false
+! pip install mlflow
+```
+
+y luego ejecutarlo con:
+
+```bash
+$ mlflow server
+...[INFO] Starting gunicorn 23.0.0
+...[INFO] Listening at: http://127.0.0.1:5000 (77581)
+...[INFO] Using worker: sync
+...[INFO] Booting worker with pid: 77582
+...[INFO] Booting worker with pid: 77583
+...[INFO] Booting worker with pid: 77584
+...[INFO] Booting worker with pid: 77585
+```
+
+## Acceso a MLFlow
+
+Podemos acceder, pero todavía no hay nada interesante.
+
+[![](images/mlflow1.png)](http://localhost:5000)
+
+## Primeros ejemplos
+
+Partimos de un código sencillo:
+
+```{python}
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_val_score
+
+
+def main():
+    iris = load_iris()
+
+    # Testing different maximum-depth values
+    for max_depth in range(1, 6):
+        # Create a decision tree classifier
+        clf = DecisionTreeClassifier(max_depth=max_depth)
+
+        # Perform cross-validation with 5 folds
+        scores = cross_val_score(clf, iris.data, iris.target, cv=5).mean()
+
+        # Print the cross-validation scores
+        print(f"Cross-validation scores for max_depth={max_depth}: {scores:.5f}")
+
+
+main()
+```
+
+## Registrando el experimento
+
+Vamos a incorporar el uso de MLFlow inicialmente. Eso implica:
+
+1. Indicar dónde se guardarán los datos.
+
+```python
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+```
+
+2. Crear un experimento asignándole un nombre:
+```python
+mlflow.set_experiment("Iris - max_depth study")
+```
+
+3. Delimitar el código asociado a cada ejecución
+
+```python
+with mlflow.start_run():
+    ...
+```
+
+4. Guardar los parámetros:
+
+```python
+mlflow.log_param("max_depth", max_depth)
+```
+
+5. Guardar los resultados:
+
+```python
+mlflow.log_metric("accuracy", scores)
+```
+
+## Probando el ejemplo completo
+
+```{python}
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_val_score
+import mlflow
+
+
+def main():
+    iris = load_iris()
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
+    mlflow.set_experiment("Iris - max_depth study")
+
+    for max_depth in range(1, 5):
+        with mlflow.start_run():
+            mlflow.log_param("max_depth", max_depth)
+
+            clf = DecisionTreeClassifier(max_depth=max_depth)
+            scores = cross_val_score(clf, iris.data, iris.target, cv=5).mean()
+            print(f"Cross-validation scores for max_depth={max_depth}: {scores:.5f}")
+            # Registro la métrica
+            mlflow.log_metric("accuracy", scores)
+
+
+main()
+
+```
+
+## Volvemos a la página anterior
+
+[![](images/mlflow2.png)](http://localhost:5000)
+
+## Elegimos las columnas
+
+[![](images/mlflow3.png)](http://localhost:5000)
+
+## Elegimos las columnas
+
+[![](images/mlflow4.png)](http://localhost:5000)
+
+## Mejoras:
+
+1. Cambiar los nombres de los experimentos:
+
+```python
+with mlflow.start_run(run_name=f"max_depth-{max_depth}"):
+```
+
+2. Guardar la información del modelo:
+
+```python
+mlflow.sklearn.log_model(
+                sk_model=clf,
+                artifact_path="decision-tree",
+                registered_model_name="dc-reg-model",
+            )
+```
+
+3. Usemos múltiples métricas.
+
+```python
+            scores = cross_validate(
+                clf,
+                cancer.data,
+                cancer.target,
+                cv=5,
+                scoring=["accuracy", "f1", "recall", "precision", "roc_auc"],
+            )
+
+            for score in scores:
+                # Registro la métrica
+                mlflow.log_metric(score, scores[score].mean())
+```
+
+## Todo junto
+
+```{python}
+from sklearn.datasets import load_breast_cancer
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_val_score, cross_validate
+import mlflow
+
+def main():
+    cancer = load_breast_cancer()
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_experiment("Cancer - max_depth study")
+
+    # Testing different maximum-depth values
+    for max_depth in range(1, 5):
+        with mlflow.start_run(run_name=f"max_depth-{max_depth}"):
+            mlflow.log_param("max_depth", max_depth)
+            clf = DecisionTreeClassifier(max_depth=max_depth)
+
+            scores = cross_validate(
+                clf,
+                cancer.data,
+                cancer.target,
+                cv=5,
+                scoring=["accuracy", "f1", "recall", "precision", "roc_auc"],
+            )
+
+            for score in scores:
+                print(score)
+                print(scores[score].mean())
+                # Registro la métrica
+                mlflow.log_metric(score, scores[score].mean())
+
+            # Log the sklearn model and register as version 1
+            mlflow.sklearn.log_model(
+                sk_model=clf,
+                artifact_path="decision-tree",
+                registered_model_name="dc-reg-model",
+            )
+
+main()
+
+```
+
+## Vamos a ver qué tal va
+
+[![](images/mlflow6.png)](http://localhost:5000)
+
+# Es muy pesado
+
+## Auto-logging
+
+- MLFlow conoce la mayoría de librerías: Scikit-learn, Keras, PyTorch, XGBoost, ...
+
+- Permite registrar de forma automática.
+
+```python
+    # Creo el experimento si no existe
+    mlflow.set_experiment("Cancer - max_depth study auto")
+    # Activo el autolog
+    mlflow.autolog()
+```
+
+- Registrará cada modelo, con los distintos parámetros.
+
+## Ejemplo
+
+```{python}
+from sklearn.datasets import load_breast_cancer
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_val_score, cross_validate
+import mlflow
+
+def main():
+    cancer = load_breast_cancer()
+    # Añadimos dónde se guardarán los datos
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
+    # Creo el experimento si no existe
+    mlflow.set_experiment("Cancer - max_depth study auto")
+    mlflow.autolog()
+
+    # Testing different maximum-depth values
+    for max_depth in range(1, 5):
+        # Con with no es necesario iniciar y cerrar, es más cómodo
+        with mlflow.start_run(run_name=f"max_depth-{max_depth}"):
+            # Create a decision tree classifier
+            clf = DecisionTreeClassifier(max_depth=max_depth)
+
+            # Perform cross-validation with 5 folds
+            scores = cross_validate(
+                clf,
+                cancer.data,
+                cancer.target,
+                cv=5,
+                scoring=["accuracy", "f1", "recall", "precision", "roc_auc"],
+            )
+
+            for score in scores:
+                print(score)
+                print(scores[score].mean())
+
+
+main()
+           
+```
+
+## Resultado
+
+[![](images/mlflowa.png)](http://localhost:5000){width="120%"}
+
+# Comparando
+
+## Podemos comparar las distintas salidas
+
+[![](images/mlflow7.png)](http://localhost:5000)
+
+# Guardando el modelo
+
+El modelo no solo se puede registrar de cara a 
+
+Se puede guardar y luego recuperar:
+
+
+
+# Otras opciones
+
+<!-- De https://www.databricks.com/blog/2022/04/19/model-evaluation-in-mlflow.html -->
+
