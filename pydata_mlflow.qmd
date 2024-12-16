@@ -7,7 +7,7 @@ theme: Montpellier
 author: "Daniel Molina Cabrera"
 date: 19 December 2024 
 date-format: long
-toc: true
+toc: false
 toc-title: Tabla de Contenidos
 toc-depth: 1
 slide-number: true
@@ -24,6 +24,7 @@ format:
     fig-width: 5
     fig-height: 3
     fig-align: center
+    fig-justify: center
   beamer:
     fig-width: 4
     fig-height: 2
@@ -39,7 +40,16 @@ format:
 
 ## Material de las transparencias
 
-![](images/qr-code.png){width="40%""}
+::: {.columns}
+
+:::: {.column width="50%"}
+![Github](images/qr-code.png){width="80%" #github}
+::::
+
+:::: {.column width="50%"}
+![Slides](images/qr-code.png){width="80%" #slides}
+::::
+:::
 
 ## Sobre mí {.smaller}
 
