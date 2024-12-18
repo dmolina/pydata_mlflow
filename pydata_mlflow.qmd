@@ -32,7 +32,6 @@ format:
     theme: white
     fig-align: center
     fig-height: 5
-    fig-cap-location: margin
     smaller: true
     logo: images/license.png
     slide-number: true
@@ -43,11 +42,19 @@ format:
 ::: {.columns}
 
 :::: {.column width="50%"}
+
+::::: {style="text-align:center;"}
 ![Github](images/qr_github.png){width="100%" #github}
+:::::
+
 ::::
 
 :::: {.column width="50%"}
-![Slides](images/qr-code.png){width="80%" #slides}
+
+::::: {style="text-align:center;"}
+![Slides](images/qr_slides.png){width="100%" #slides}
+:::::
+
 ::::
 :::
 
@@ -397,11 +404,9 @@ main()
 
 # Guardando el modelo
 
-El modelo no solo se puede registrar de cara a 
+El modelo no solo se puede registrar de cara a comparar diferencias entre ellos.
 
-Se puede guardar y luego recuperar:
-
-
+Si se registra se puede recuperar.
 
 # Otras opciones
 
