@@ -412,3 +412,25 @@ Si se registra se puede recuperar.
 
 <!-- De https://www.databricks.com/blog/2022/04/19/model-evaluation-in-mlflow.html -->
 
+
+## 
+
+::: {.columns  style='display: flex !important; height: 90%;'}
+
+:::: {.column width="80%"  style='display: flex; justify-content: center; align-items: center;'}
+![](images/minions_gracias.gif){ width="120%" fig-align=center}
+::::
+
+:::: {.column width="20%"   style='display: flex; justify-content: center; align-items: center;'}
+![](images/preguntas.png){ width="60%" fig-align=center}
+::::
+
+:::
+
+<!-- ::: {.columns  style='display: flex !important; height: 90%;'} -->
+
+<!-- :::: {.column width="80%"} -->
+<!-- ![](images/yo.png){width="10%"} -->
+<!-- :::: -->
+
+<!-- ::: -->
