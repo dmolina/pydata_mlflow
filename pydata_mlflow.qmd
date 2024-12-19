@@ -1,10 +1,10 @@
 ---
 title: |
+  ![](images/logos.png){width="100%"}
   Gestionando tu proyecto con
-  ![](images/mlflow.png){width="60%"}  
-	
+  ![](images/mlflow.png){width="60%"}
 theme: Montpellier
-author: "Daniel Molina Cabrera"
+author: "Daniel Molina"
 date: 19 December 2024 
 date-format: long
 toc: false
@@ -19,6 +19,7 @@ output:
     slide_level: 1
 format:
   html:
+    css: style.css
     code-fold: false
     code-summary: "Show Code"
     fig-width: 5
@@ -30,6 +31,7 @@ format:
     fig-height: 2
   revealjs:
     theme: white
+    css: style.css
     fig-align: center
     fig-height: 5
     smaller: true
@@ -61,8 +63,6 @@ format:
 ## Sobre mí {.smaller}
 
 ::: {.columns}
-![](images/logos.png){fig-align="top" width="100%"}
-
 :::: {.column width="40%"}
 ![](images/yo_serio.png){width="80%"}
 ::::
@@ -73,8 +73,7 @@ format:
 - Investigador en Inteligencia Artificial.
 - Enseñando ML varios años usando Python y R.
 - Usando técnicas de ML en proyectos con empresas.
-
-![](images/DaSCI_logo_1.png){width="40%"}
+![](images/logo_dasci.png){width="30%"}
 ::::
 
 :::
